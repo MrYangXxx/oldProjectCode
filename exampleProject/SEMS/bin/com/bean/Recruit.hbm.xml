@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="com.bean.Recruit" table="recruit">
+		<id name="id" column="id">
+			<generator class="native"></generator>
+		</id>
+	
+	<property name="company" column="company"></property>
+	<property name="position" column="position"></property>
+	<property name="degree" column="degree"></property>
+	<property name="salary" column="salary"></property>
+	<property name="deadline" column="deadline"></property>
+	<property name="other" column="other"></property>
+
+	</class>
+	</hibernate-mapping>

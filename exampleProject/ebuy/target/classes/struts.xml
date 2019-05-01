@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC  
+    "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"  
+    "http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+
+	<package name="ebuy" extends="struts-default">
+		<global-allowed-methods>regex:.*</global-allowed-methods>
+		<action name="product_*" class="site.jimblog.action.ProductAction"
+			method="{1}">
+			<result name="success">main.jsp</result>
+		</action>
+		<action name="news_*" class="site.jimblog.action.NewsAction"
+			method="{1}">
+			<result name="success">main.jsp</result>
+		</action>
+		<action name="notice_*" class="site.jimblog.action.NoticeAction"
+			method="{1}">
+			<result name="success">main.jsp</result>
+		</action>
+		<action name="comment_*" class="site.jimblog.action.CommentAction"
+			method="{1}">
+			<result name="save" type="redirectAction">comment_list.action</result>
+			<result name="success">comment.jsp</result>
+		</action>
+		<action name="shopping_*" class="site.jimblog.action.ShoppingAction"
+			method="{1}">
+			<result name="success">main.jsp</result>
+			<result name="list" type="redirectAction">shopping_list.action</result>
+		</action>
+		<action name="order_*" class="site.jimblog.action.OrderAction"
+			method="{1}">
+			<result name="success">main.jsp</result>
+			<result name="orderList">main.jsp</result>
+		</action>
+		<action name="user_*" class="site.jimblog.action.UserAction"
+			method="{1}">
+			<result name="register">reg-result.jsp</result>
+			<result name="success">main.jsp</result>
+			<result name="login">index.jsp</result>
+			<result name="adminLogin" type="redirect">admin/main.jsp</result>
+			<result name="logout" type="redirect">index.jsp</result>
+			<result name="logout2">login.jsp</result>
+			<result name="error">login.jsp</result>
+			<result name="adminError">admin/login.jsp</result>
+			<result name="userCenter">main.jsp</result>
+		</action>
+		<action name="productBigType_*" class="site.jimblog.action.ProductBigTypeAction"
+			method="{1}"></action>
+		<action name="productSmallType_*" class="site.jimblog.action.ProductSmallTypeAction"
+			method="{1}"></action>
+		<action name="tag_*" class="site.jimblog.action.TagAction" method="{1}"></action>
+		<action name="sys_*" class="site.jimblog.action.SysAction" method="{1}"></action>
+	</package>
+
+</struts>

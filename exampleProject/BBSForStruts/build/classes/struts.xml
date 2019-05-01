@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.5//EN"
+        "http://struts.apache.org/dtds/struts-2.5.dtd">
+
+<struts>
+	<package name="login" extends="struts-default" namespace="/">
+		<default-action-ref name="articleFlat" />
+		<action name="login" class="com.java.action.LoginAction">
+			<result name="success" type="redirectAction">articleFlat</result>
+			<result name="error">/login.jsp</result>
+		</action>
+	</package>
+
+	<package name="articlePage" extends="struts-default" namespace="/">
+	
+	<interceptors>
+	<interceptor name="loginInterceptor" class="com.java.intercept.LoginInterceptor"></interceptor>
+	</interceptors>
+	
+		<action name="articleFlat" class="com.java.action.ArticleFlatAction">
+			<result name="success">/articleFlat.jsp</result>
+		</action>
+		<action name="article" class="com.java.action.ArticleAction">
+		<interceptor-ref name="loginInterceptor"></interceptor-ref>
+		<interceptor-ref name="defaultStack"></interceptor-ref>
+		<result name="success">/article.jsp</result>
+		<result name="login" type="redirectAction">login</result>
+		</action>
+		<action name="articleDetailFlat" class="com.java.action.ArticleDetailFlatAction">
+		<result name="success">/articleDetailFlat.jsp</result>
+		<result name="error" type="redirectAction">articleFlat</result>
+		</action>
+		<action name="articleDetail" class="com.java.action.ArticleDetailAction">
+		<result name="success">/articleDetail.jsp</result>
+		<result name="error" type="redirectAction">article</result>
+		</action>
+		<action name="delete" class="com.java.action.DeleteAction">
+			<interceptor-ref name="loginInterceptor"></interceptor-ref>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+		<result name="success">/delete.jsp</result>
+		<result name="error" type="redirectAction">article</result>
+		</action>
+		<action name="post" class="com.java.action.PostAction">
+		<result name="success" type="redirectAction">articleFlat</result>
+		<result name="error">/post.jsp</result>
+		</action>
+		<action name="reply" class="com.java.action.ReplyAction">
+		<result name="success">/reply.jsp</result>
+		<result name="error">/error.jsp</result>
+		</action>
+		<action name="replyDeal" class="com.java.action.ReplyDealAction">
+		<result name="success">/replyDeal.jsp</result>
+		<result name="error">/error.jsp</result>
+		</action>
+	</package>
+
+</struts>

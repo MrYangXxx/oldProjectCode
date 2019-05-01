@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="site.jimblog.dao.ProductCategoryDao">
+
+	<select id="listProductCategory" resultType="ProductCategory">
+		select * from
+		tb_product_category
+		where shop_id=#{shopId}
+		order by priority desc
+	</select>
+
+	<insert id="saveProductCategorys" parameterType="java.util.List">
+		insert into
+		tb_product_category(product_category_name,product_category_desc,priority,
+		create_time,last_edit_time,shop_id) values
+		<foreach collection="list" item="productCategory" index="index"
+			separator=",">
+			(
+			#{productCategory.productCategoryName},
+			#{productCategory.productCategoryDesc},
+			#{productCategory.priority},
+			#{productCategory.createTime},
+			#{productCategory.lastEditTime},
+			#{productCategory.shopId}
+			)
+		</foreach>
+	</insert>
+	
+	<delete id="deleteProductCategory" parameterType="Long">
+	   delete from tb_product_category
+	   where product_category_id=#{productCategoryId}
+	</delete>
+</mapper>

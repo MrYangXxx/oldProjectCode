@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+		<!-- use local thread, do not need close by self -->
+		<property name="hibernate.current_session_context_class">thread</property>
+
+		<!-- 1.set database -->
+		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost:3306/student?useSSL=false</property>
+		<property name="hibernate.connection.username">root</property>
+		<property name="hibernate.connection.password">123456</property>
+
+		<!-- 2.set hibernate data -->
+		<property name="hibernate.show_sql">true</property>
+		<property name="hibernate.format_sql">true</property>
+		<!-- auto create table -->
+		<property name="hibernate.hbm2ddl.auto">update</property>
+
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
+
+		<!-- 3.set mapping file -->
+		<mapping resource="com/bean/Company.hbm.xml" />
+		<mapping resource="com/bean/Recruit.hbm.xml" />
+		<mapping resource="com/bean/User.hbm.xml" />
+		<mapping resource="com/bean/Stu_work.hbm.xml" />
+		<mapping resource="com/bean/Student.hbm.xml" />
+
+	</session-factory>
+</hibernate-configuration>

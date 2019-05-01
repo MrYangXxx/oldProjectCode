@@ -1,0 +1,6 @@
+2018-09-21 10:09:33.865[main]DEBUG site.jimblog.dao.HeadLineDao.listHeadLine - ==>  Preparing: SELECT line_id, line_name, line_link, line_img, priority, enable_status, create_time, last_edit_time FROM tb_head_line ORDER BY priority DESC 
+2018-09-21 10:09:33.934[main]DEBUG site.jimblog.dao.HeadLineDao.listHeadLine - ==> Parameters: 
+2018-09-21 10:09:33.950[main]DEBUG site.jimblog.dao.HeadLineDao.listHeadLine - <==      Total: 4
+2018-09-21 10:16:03.209[main]DEBUG site.jimblog.dao.ShopCategoryDao.listShopCategory - ==>  Preparing: select * from tb_shop_category WHERE parent_id is null order by priority desc 
+2018-09-21 10:16:03.287[main]DEBUG site.jimblog.dao.ShopCategoryDao.listShopCategory - ==> Parameters: 
+2018-09-21 10:16:03.362[main]DEBUG site.jimblog.dao.ShopCategoryDao.listShopCategory - <==      Total: 6

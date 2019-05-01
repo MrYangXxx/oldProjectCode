@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:tx="http://www.springframework.org/schema/tx"
+         xmlns:aop="http://www.springframework.org/schema/aop"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+                http://www.springframework.org/schema/beans/spring-beans.xsd
+                http://www.springframework.org/schema/context
+                http://www.springframework.org/schema/context/spring-context.xsd
+                http://www.springframework.org/schema/tx
+                http://www.springframework.org/schema/tx/spring-tx.xsd
+                http://www.springframework.org/schema/aop
+                http://www.springframework.org/schema/aop/spring-aop.xsd">
+                
+    
+    <!--c3p0 Connection pool  -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="com.mysql.jdbc.Driver"></property>
+        <property name="jdbcUrl" value="jdbc:mysql:///db_book"></property>
+        <property name="user" value="root"></property>
+        <property name="password" value="123456"></property>
+    </bean>
+    
+    <!-- scan annotation -->
+    <context:component-scan base-package="com.dao"></context:component-scan>
+    
+     <!-- JdbcTemplate have constructor->public JdbcTemplate(DataSource dataSource),we need set dataSource -->
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate" scope="prototype">
+       <constructor-arg name="dataSource" ref="dataSource"></constructor-arg>
+    </bean>
+    
+    <bean id="userDao" class="com.dao.UserDao"></bean>
+    
+	<bean id="bookDao" class="com.dao.BookDao"></bean>
+	<bean id="bookTypeDao" class="com.dao.BookTypeDao"></bean>
+	
+	<!-- Frm  -->
+	<bean id="logOnFrm" class="com.view.LogOnFrm"></bean>
+	<bean id="mainFrm" class="com.view.MainFrm"></bean>
+    <bean id="bookAddInterFrm" class="com.view.BookAddInterFrm"></bean>
+    <bean id="bookTypeInterFrm" class="com.view.BookTypeInterFrm"></bean>
+    <bean id="bookTypeManageInterFrm" class="com.view.BookTypeManageInterFrm"></bean>
+    <bean id="bookManageInterFrm" class="com.view.BookManageInterFrm"></bean>
+    
+	<!-- tx -->
+	<!-- 1. transaction manager -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	    <property name="dataSource" ref="dataSource"></property>
+	</bean>
+    
+   	<!-- 2.set transaction advance  -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+	    <!-- transaction operation-->
+	    <tx:attributes>
+	        <!-- set transaction method, can use * wildcard-->
+	        <tx:method name="insert*" propagation="REQUIRED"/>
+	        <tx:method name="delete*" propagation="REQUIRED"/>
+	        <tx:method name="modify*" propagation="REQUIRED"/>
+	    </tx:attributes>
+	</tx:advice>
+	
+	<!-- 3. set transaction aop -->
+	<aop:config>
+	    <aop:pointcut expression="execution(* com.dao.*.*(..))" id="dao"/>
+	    <aop:advisor advice-ref="txAdvice" pointcut-ref="dao"/>
+	</aop:config>
+    
+</beans>

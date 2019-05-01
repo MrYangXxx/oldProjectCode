@@ -1,0 +1,179 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0034)http://wenda.ghostchina.com/login/ -->
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta
+	content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+	name="viewport">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1">
+<meta name="renderer" content="webkit">
+<title>登录 - 日记本</title>
+
+<!--<base href="http://wenda.ghostchina.com/">-->
+<base href=".">
+<!--[if IE]></base><![endif]-->
+
+<link rel="stylesheet" type="text/css" href="./html_files/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="./html_files/icon.css">
+
+<link href="./html_files/common.css" rel="stylesheet" type="text/css">
+<link href="./html_files/link.css" rel="stylesheet" type="text/css">
+<link href="./html_files/style.css" rel="stylesheet" type="text/css">
+<link href="./html_files/login.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="./bootstrap/js/jquery.js" type="text/javascript"></script>
+<script src="./html_files/jquery.cookie.js" type="text/javascript"></script>
+<script src="./html_files/jquery.form.js" type="text/javascript"></script>
+<script src="./html_files/plug-in_module.js" type="text/javascript"></script>
+<script src="./html_files/aws.js" type="text/javascript"></script>
+<script src="./html_files/aw_template.js" type="text/javascript"></script>
+<script src="./html_files/app.js" type="text/javascript"></script>
+<script src="./html_files/md5.js" type="text/javascript"></script>
+<script type="text/javascript" src="./html_files/compatibility.js"></script>
+<!--[if lte IE 8]>
+	<script type="text/javascript" src="http://wenda.ghostchina.com/static/js/respond.js"></script>
+<![endif]-->
+<!-- md5 js encrypt browser password -->
+<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+
+<style type="text/css">
+.fancybox-margin {
+	margin-right: 0px;
+}
+</style>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+    if ($.cookie("remember") == "true") {
+        $("#rmbUser").attr("checked", true);
+        $("#aw-login-user-name").val($.cookie("userName"));
+        $("#aw-login-user-password").val($.cookie("password"));
+        $('#rememberMe').attr('checked', true);
+    }
+});
+
+	function login(loginform) {//传入表单参数
+		if ($('#aw-login-user-name').val() == '') { //验证用户名是否为空
+			alert("请输入用户名！");
+			$('#aw-login-user-name').focus();
+			return false;
+		}
+		if ($('#aw-login-user-password').val() == '') { //验证密码是否为空
+			alert("请输入密码！");
+			$('#aw-login-user-password').focus();
+			return false;
+		}
+		var param = "/diary/login?userName=" + $('#aw-login-user-name').val()
+				+ "&password=" + md5($('#aw-login-user-password').val()); //将登录信息连接成字符串，作为发送请求的参数
+				
+				 if ($('#rememberMe').is(':checked')) {
+					 	var userName = $("#aw-login-user-name").val();
+				        var password = $("#aw-login-user-password").val();
+				        $.cookie("remember", "true", { expires: 7 }); // 存储一个带7天期限的 cookie
+				        $.cookie("userName", userName, { expires: 7 }); // 存储一个带7天期限的 cookie
+				        $.cookie("password", password, { expires: 7 }); // 存储一个带7天期限的 cookie
+				 }else {
+				        $.cookie("remember", "false", { expires: -1 });        // 删除 cookie
+				        $.cookie("userName", '', { expires: -1 });
+				        $.cookie("password", '', { expires: -1 });
+				    }
+		
+		$.ajax({
+			url : param,
+			type : "POST",
+			dataType : "json",
+			contentType : 'application/x-www-form-urlencoded; charset=UTF-8',//防止乱码
+			success : function(data) {
+				if (data == false) {
+					alert("您输入的用户名或密码有错！");
+					$('#aw-login-user-password').val('');
+				} else {
+					window.location = "main";//跳转到主页
+				}
+			}
+		});
+	}
+</script>
+
+</head>
+
+<body>
+	<noscript id="noscript">&lt;div class="aw-404
+		aw-404-wrap container"&gt; &lt;img
+		src="http://wenda.ghostchina.com/static/common/no-js.jpg"&gt;
+		&lt;p&gt;你的浏览器禁用了JavaScript, 请开启后刷新浏览器获得更好的体验!&lt;/p&gt; &lt;/div&gt;</noscript>
+	<div id="wrapper">
+		<div class="aw-login-box" style="width: 500px">
+			<div class="mod-body clearfix" align="center">
+
+					<font size=5 >Diary</font>
+				<br> <br>
+				<form id="login_form" method="post" action="login">
+					<input type="hidden" name="action" value="login">
+					<ul>
+						<li>
+							<input type="text" id="aw-login-user-name"
+								onkeyup="this.value=this.value.replace(/^ +| +$/g,'')"
+								class="form-control" placeholder="邮箱 / 用户名" name="userName">
+								<p/>
+						</li>
+						<li>
+							<input type="password" id="aw-login-user-password"
+								onkeyup="this.value=this.value.replace(/^ +| +$/g,'')"
+								class="form-control" placeholder="密码" name="password">
+						<p/>
+						</li>
+						<li class="alert alert-danger hide error_message">
+							<i class="icon icon-delete"></i> <em></em>
+						</li>
+						<li class="last">
+							<input type="button" class="btn btn-large btn-primary" style="margin-right: 30px"
+								value="登录" onclick="login(this.form)"/>
+							<label>
+								<input id="rememberMe" type="checkbox" value="remember" name="net_auto_login"/>
+								记住我
+							</label>
+							<a href="#">&nbsp;&nbsp;忘记密码</a>
+						</li>
+					</ul>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="./html_files/login.js"></script>
+
+	<div class="aw-footer-wrap">
+		<div class="aw-footer">
+			Copyright © 2017<span class="hidden-xs"> - 京ICP备666666号, All
+				Rights Reserved</span> <span class="hide">Powered By <a
+					href="http://www.wecenter.com/?copyright" target="blank">WeCenter
+					3.0 Beta 2</a></span>
+
+		</div>
+	</div>
+
+
+
+	<a class="aw-back-top hidden-xs" href="javascript:;"
+		onclick="$.scrollTo(1, 600, {queue:true});">
+		<i class="icon icon-up"></i>
+	</a>
+
+
+	<!-- DO NOT REMOVE -->
+	<div id="aw-ajax-box" class="aw-ajax-box"></div>
+	<div style="display: none;" id="__crond">
+		<img src="./html_files/1506692307" width="1" height="1">
+	</div>
+
+	<!-- Escape time: 0.0065238475799561 -->
+	<!-- / DO NOT REMOVE -->
+
+
+</body>
+</html>
